@@ -1,62 +1,30 @@
 
-//Creamos la clase auto
-class Auto {
-    constructor(id,modelo,costo,tasa,img){
-        this.id = id
-        this.modelo = modelo
-        this.costo = costo
-        this.tasa = tasa
-        this.img = img
-    }
-}
 
-//Declaramos el array
-
-const arrayAutos = []
-
-// Creamos los objetos y los agregamos al array
-const city = new Auto(1,'City',363900,16,'city.png')
-arrayAutos.push(city)
-const civic = new Auto(2,'Civic',545900,14,'civic.png')
-arrayAutos.push(civic)
-const accord = new Auto(3,'Accord',779900,11,'accord.png')
-arrayAutos.push(accord)
-const crv = new Auto(4,'CRV',714900,12,'crv.png')
-arrayAutos.push(crv)
-const pilot = new Auto(5,'Pilot',1029900,9,'pilot.png')
-arrayAutos.push(pilot)
-const aveo = new Auto(6,'Odyssey',1255200,16,'odyssey.png')
-arrayAutos.push(aveo)
-// console.log(arrayAutos)
 //seleccionamos el select de autos
 const selectAuto = document.querySelector('#selectAuto')
 
-//Llamamos al API que esta en JSON
+// Llamamos al API que esta en JSON
 const fetchAutos = async () => {
-    const autosApi = await fetch('carros.json')
-    const autosJson = await autosApi.json()
-    return autosJson
+    try {
+        // llamada al API (No encontre una API gratis de carros por ende simule el api generar un archivo .json)
+        const urlApi = await fetch('carros.json')
+        // convertimos al json
+        const respuestaApi = await urlApi.json()
+        // vaciamos el contenido del json y generamos el option del select
+        respuestaApi.forEach((prod)=>{
+            const optionAuto = document.createElement('option')
+            optionAuto.innerText = `${prod.modelo}: $${prod.costo}`
+            optionAuto.setAttribute('value', `${prod.id}`)
+            selectAuto.append(optionAuto)
+            })
+         
+    }catch(error){
+        // En caso de generar un error en la consulta lo mostramos
+        console.log(error)
+    }
 }
+ fetchAutos()
 
-const renderAutos = async () => {
-    const autos = await fetchAutos()
-    autos.forEach((prod)=>{
-        const optionAuto = document.createElement('option')
-        optionAuto.innerText = `${prod.modelo}: $${prod.costo}`
-        optionAuto.setAttribute('value', `${prod.id}`)
-        selectAuto.append(optionAuto)
-        })
-}
-
-
-
-//llenamos el select del auto dinamicamente con el array de autos
-    // arrayAutos.forEach((prod)=>{
-    //     const optionAuto = document.createElement('option')
-    //     optionAuto.innerText = `${prod.modelo}: $${prod.costo}`
-    //     optionAuto.setAttribute('value', `${prod.id}`)
-    //     selectAuto.append(optionAuto)
-    // }) 
 
 let  autoSeleccionado
 //Recuperamos el Auto seleccionado por el usuario
@@ -87,12 +55,60 @@ selectEnganche.addEventListener('change', () => {
 
 //Recuperamos el formulario
 const form = document.querySelector('#formulario')
+const name = document.getElementById("nombre")
+const mail = document.getElementById("email")
+
+
+
 
 //Cachamos el evento onsubmit del formulario 
 form.onsubmit = (evento) => {
     //Paramos la ejecución del formulario
     evento.preventDefault()
-    //Buscamos con un filtro en el array de autos la selección del usuario
+    //validamos formulario
+
+    if(name.value.length < 5){
+        
+        Swal.fire({
+            icon: 'error',
+            title: 'Error.',
+            text: 'El nombre es muy corto'
+          })
+          window.stop ();
+          return false;
+    }
+
+//Creamos la clase auto para ocupar el concepto de clase y array 
+class Auto {
+    constructor(id,modelo,costo,tasa,img){
+        this.id = id
+        this.modelo = modelo
+        this.costo = costo
+        this.tasa = tasa
+        this.img = img
+    }
+}
+
+//Declaramos el array igual para poder usar el concepto de array y no solo usar el API
+
+ const arrayAutos = []
+
+// Creamos los objetos y los agregamos al array para poder usar el concepto de array y no solo usar el API
+        const city = new Auto(1,'City',363900,16,'city.png')
+        arrayAutos.push(city)
+        const civic = new Auto(2,'Civic',545900,14,'civic.png')
+        arrayAutos.push(civic)
+        const accord = new Auto(3,'Accord',779900,11,'accord.png')
+        arrayAutos.push(accord)
+        const crv = new Auto(4,'CRV',714900,12,'crv.png')
+        arrayAutos.push(crv)
+        const pilot = new Auto(5,'Pilot',1029900,9,'pilot.png')
+        arrayAutos.push(pilot)
+        const aveo = new Auto(6,'Odyssey',1255200,16,'odyssey.png')
+        arrayAutos.push(aveo)
+
+
+    //Buscamos con un filtro en el array de autos la selección del usuario para poder usar el concepto de array y no solo usar el API
     const automovil = arrayAutos.filter(auto=>auto.id===autoSeleccionado)
     //Sacamos el indice del array, retsamos 1 porque el array comienza en cero
     const indice = selectAuto.selectedIndex-1
@@ -126,10 +142,10 @@ form.onsubmit = (evento) => {
     //sacamos la mensualidad total sumando mensualidad + intereses+impuestos
     const mensulidadTotal = Math.round(mensulidadesSinintereses+mensulidadInteres+impuestoDelInteres)
     //verificamos contidad en consola
-    console.log('mensulidadesSinintereses: '+mensulidadesSinintereses)
-    console.log('mensulidadInteres: '+mensulidadInteres)
-    console.log('impuestInteres: '+impuestoDelInteres)
-    console.log('mensualidadTotal: '+mensulidadTotal)
+    // console.log('mensulidadesSinintereses: '+mensulidadesSinintereses)
+    // console.log('mensulidadInteres: '+mensulidadInteres)
+    // console.log('impuestInteres: '+impuestoDelInteres)
+    // console.log('mensualidadTotal: '+mensulidadTotal)
     
     //ocultamos el section del HTML inicial
     const carrusel = document.getElementById('main')
@@ -197,8 +213,8 @@ form.onsubmit = (evento) => {
     const localNombre = localStorage.getItem('Lnombre')
     const localfecha = localStorage.getItem('Lfecha')
     //Mostramos datos desde localstorage
-    console.log(localNombre)
-    console.log(localfecha)
+    // console.log(localNombre)
+    // console.log(localfecha)
 
     //Generamos un array con los datos para guardar en JSON
     const Cotizacion = {
@@ -216,9 +232,9 @@ form.onsubmit = (evento) => {
 
     //Recuperamos el JSON
     const CotizacionJsonLStorage = localStorage.getItem('CotizacionJSON')
-    console.log(CotizacionJsonLStorage)
+    // console.log(CotizacionJsonLStorage)
     //Pasamos y vemos el JSON como Objeto al mismo tiempo
-    console.log(JSON.parse(CotizacionJsonLStorage))
+    // console.log(JSON.parse(CotizacionJsonLStorage))
 
     //FIN
     

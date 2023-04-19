@@ -1,6 +1,9 @@
-{"id": 1, "modelo": "City", "costo": 363900, "tasa": 16, "img": "city.png"},
+
+[
+{"id": 1, "modelo": "City", "costo": 363900, "tasa": 16, "img": "city.png"}, 
 {"id": 2, "modelo": "Civic", "costo": 545900, "tasa": 14, "img": "civic.png"},
 {"id": 3, "modelo": "Accord", "costo": 779900, "tasa": 11, "img": "accord.png"},
 {"id": 4, "modelo": "CRV", "costo": 714900, "tasa": 12, "img": "crv.png"},
 {"id": 5, "modelo": "Pilot", "costo": 1029900, "tasa": 9, "img": "pilot.png"},
 {"id": 6, "modelo": "Odyssey", "costo": 1255200, "tasa": 16, "img": "odyssey.png"}
+]
