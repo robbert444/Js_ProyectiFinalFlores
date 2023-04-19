@@ -65,10 +65,11 @@ const mail = document.getElementById("email")
 form.onsubmit = (evento) => {
     //Paramos la ejecución del formulario
     evento.preventDefault()
-    //validamos formulario
 
+
+    //validamos formulario
     if(name.value.length < 5){
-        
+    //Usamos libreria externa para mostrar el erorr diferente al Alert
         Swal.fire({
             icon: 'error',
             title: 'Error.',
